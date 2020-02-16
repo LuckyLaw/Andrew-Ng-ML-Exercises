@@ -14,20 +14,21 @@ mulvar_x1 = mulvar_data['size'].tolist()
 mulvar_x2 = mulvar_data['no_bedrooms'].tolist()
 mulvar_y = mulvar_data['price'].tolist()
 
+# 特征缩放
 x1_mean = np.mean(mulvar_x1)
 x2_mean = np.mean(mulvar_x2)
 y_mean = np.mean(mulvar_y)
-x1_std=np.std(mulvar_x1)
-x2_std=np.std(mulvar_x2)
-y_std=np.std(mulvar_y)
-x11=[]
-x21=[]
-y1=[]
+x1_std = np.std(mulvar_x1)
+x2_std = np.std(mulvar_x2)
+y_std = np.std(mulvar_y)
+x11 = []
+x21 = []
+y1 = []
 
 for i in range(len(mulvar_y)):
-    x11.append((mulvar_x1[i]-x1_mean)/x1_std)
-    x21.append((mulvar_x2[i]-x2_mean)/x1_std)
-    y1.append((mulvar_y[i]-y_mean)/y_std)
+    x11.append((mulvar_x1[i] - x1_mean) / x1_std)
+    x21.append((mulvar_x2[i] - x2_mean) / x1_std)
+    y1.append((mulvar_y[i] - y_mean) / y_std)
 
 # print(x1)
 # print(x2_mean)
@@ -44,6 +45,8 @@ theta2 = tf.Variable(np.random.randn(), name='theta2')
 print(mulvar_x1)
 print(mulvar_x2)
 print(mulvar_y)
+
+
 # 目标函数
 def h_function(th0, th1, th2, x1, x2):
     h_theta = th0 + th1 * x1 + th2 * x2
@@ -85,4 +88,4 @@ plt.xlabel('population', fontsize=12)
 plt.ylabel('profit', fontsize=12)
 plt.grid(True)
 plt.show()
-print('The objective function is: h_theta=%0.4f+%0.4f*x1+%0.4f*x2'%(theta0.numpy(), theta1.numpy(), theta2.numpy()))
+print('The objective function is: h_theta=%0.4f+%0.4f*x1+%0.4f*x2' % (theta0.numpy(), theta1.numpy(), theta2.numpy()))
