@@ -2,15 +2,16 @@ from __future__ import unicode_literals
 import tensorflow as tf
 import pandas as pd
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 # 数据读取
-filePath = 'C:/Users/Chen/Desktop/Andrew Ng ML Exercises/Ex1_Linear_Regression/ex1data1.txt'
+filePath = 'C:/Users/Chen/Desktop/Andrew_Ng_ML_Exercises/Ex1_Linear_Regression/ex1data1.txt'
 ex1Data = pd.read_csv(filePath, header=None, names=['population', 'profit'])
 x_onevar = ex1Data['population']
 y_onevar = ex1Data['profit']
 
 # 常量设置
-alpha = 0.0001  # 学习速率
+alpha = 0.001  # 学习速率
 train_step = 3000  # 迭代次数
 
 # 建立神经网络顺序模型
@@ -20,19 +21,27 @@ model.summary()
 print(model.summary())  # 查看模型
 
 # 选择优化方法
-sgd_optimizer = tf.keras.optimizers.SGD(alpha)  # 随机梯度下降
+optimizer = tf.keras.optimizers.SGD(alpha)  # 随机梯度下降
 
 # 选择代价函数
 j_function = tf.keras.losses.MeanSquaredError()  # MeanSquareError，均方差函数
 
 # 模型编译
 model.compile(
-    optimizer=sgd_optimizer,
+    optimizer=optimizer,
     loss=j_function,
 )
 
+# 建立tensorboard监听
+log_dir = "logs\\fit\\" + datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+
 # 拟合结果
-linear_regression_result = model.fit(x_onevar, y_onevar, epochs=train_step)
+linear_regression_result = model.fit(x_onevar,  # 输入x值
+                                     y_onevar,  # 输入y值
+                                     epochs=train_step,  # 输入步长
+                                     validation_split=0.1,
+                                     callbacks=[tensorboard_callback])  # 导入监听
 
 # 查看模型
 q = model.predict(x_onevar)
