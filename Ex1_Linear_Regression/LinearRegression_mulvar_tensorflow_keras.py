@@ -67,8 +67,8 @@ print(b)
 
 # 拟合后输出与原输出做对比
 fig = plt.figure(figsize=(12, 6))
-plt.scatter(data_no, y_input.tolist(), alpha=0.8, label='whole data set')
-plt.plot(data_no, y_fit[:, 0], color='tomato', label='Fitted line')
+plt.scatter(data_no, y_input.tolist(), alpha=0.8, label='y_dataset')
+plt.plot(data_no, y_fit[:, 0], color='tomato', label='y_fit')
 plt.legend()
 plt.xlabel('number of data', fontsize=12)
 plt.ylabel('y_output', fontsize=12)
